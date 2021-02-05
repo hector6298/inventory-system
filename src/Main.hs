@@ -5,6 +5,7 @@ import Control.Monad
 import Account
 import Stock
 import Order
+import Types
 
 main :: IO ()
 main = do
@@ -48,7 +49,7 @@ processMenu = do
                  4 -> stockSorting
                  5 -> doconcat
                  6 -> doreplicate
-                 7 -> findUnitBy
+                 7 -> printUnitFound
                  8 -> printOrdersHelper
                  9 -> printReceipt
                  0 -> exitSuccess

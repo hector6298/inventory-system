@@ -1,16 +1,8 @@
 module Account where
 import System.IO
 import Control.Monad(liftM)
--- Account --
-type Password = String
-type UserName = String
-
-db_path = "db/accounts_db"
-
-data Account = Account {
-      username :: UserName,
-      password :: Password
-      } deriving (Show, Read)
+import Data.Maybe
+import Types 
 
 -- instance of class Eq
 instance Eq Account where

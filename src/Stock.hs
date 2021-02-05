@@ -7,19 +7,9 @@ import Data.List
 import Data.Maybe
 import Control.Monad
 import Control.Exception
-
--- Synonyms
-type StockCode = Int
-type UnitPrice = Double
-type DiscountPrice = Double
-type Description = String
-
-stock_db = "db/stock_db"
-
-data Stock = Stock { stockCode :: StockCode,
-                   unitPrice :: UnitPrice,
-                   discountPrice :: DiscountPrice,
-                   description :: Description } deriving (Show, Read, Ord, Eq)
+import Utils (saveNew)
+import Data.Functor
+import Types
 
 unitPriceSort :: Stock -> Stock -> Ordering
 unitPriceSort a b | unitPrice a >= unitPrice b = GT
@@ -48,6 +38,15 @@ printStock input = do
       return $ show (stockCode unit) ++ "\t    |$ " ++ show (unitPrice unit) ++ "\t|$ " ++ show (discountPrice unit) ++ "\t|" ++ show (description unit))
   mapM_ putStrLn prettyPrintedStock
 
+printAllStock :: IO ()
+printAllStock = do
+  stock <- loadStock stock_db
+  putStrLn "Stock Code  |Price\t|Discount Price\t|Description"
+  putStrLn "_____________________________________________________"
+  prettyPrintedStock <- forM stock (\unit -> do
+    return $ show (stockCode unit) ++ "\t    |$ " ++ show (unitPrice unit) ++ "\t|$ " ++ show (discountPrice unit) ++ "\t|" ++ show (description unit))
+  mapM_ putStrLn prettyPrintedStock
+  
 addUnit :: IO (Stock)
 addUnit = do
   putStrLn "Enter description: "
@@ -60,16 +59,6 @@ addUnit = do
   let code = (+1) $ stockCode $ last stock
   return $ Stock{stockCode=code, unitPrice=read price::Double, discountPrice=read disPrice::Double, description=description}
 
-saveStock :: Stock -> IO ()
-saveStock stock = do
-  contents <- readFile stock_db
-  let oldStockList = lines contents
-      newStockList = unlines $ oldStockList ++ [(show stock)]
-  (tempName, tempHandle) <- openTempFile "db" "temp"
-  hPutStr tempHandle newStockList
-  hClose tempHandle
-  removeFile "db/stock_db"
-  renameFile tempName "db/stock_db"
 
 removeUnit = do
   contents <- readFile stock_db
@@ -119,11 +108,11 @@ stockSorting = do
   case choise of 1 -> printStock $ sortByUnitPrice $ loadStock stock_db
                  2 -> printStock $ sortByDiscountPrice $ loadStock stock_db
                  3 -> printStock $ sortByDescription $ loadStock stock_db
-                 otherwise -> putStrLn "not exists"
+                 _ -> putStrLn "not exists"
 
 addUnitAndSave= do
   stock <- addUnit
-  _ <- saveStock stock
+  _ <- saveNew stock stock_db
   putStrLn $ show stock
 
 stockConcat :: [Stock] -> [Stock] -> [Stock]
@@ -167,15 +156,25 @@ doreplicate = do
   let stockToReplicate = fromJust stock
   printStock $ return (stockReplicate number stockToReplicate)
 
+findUnitBy:: IO (Maybe Stock)
 findUnitBy = do
   putStrLn "Find unit by:"
   putStrLn "   1. Code"
   putStrLn "   2. Description"
   choiseString <- getLine
   let choise = read choiseString
-  case choise of 1 -> promtFindByCode
-                 2 -> promtFindBytDescription
-                 otherwise -> putStrLn "not exists"
+  case choise of 1 -> fmap Just promtFindByCode
+                 2 -> fmap Just promtFindBytDescription
+                 _ -> return Nothing
+
+printUnitFound :: IO ()
+printUnitFound = do
+  unit <- findUnitBy
+  if isNothing unit
+    then do
+      putStrLn "Unit not found. Try Again..."
+    else do
+    printStock $ return [(fromJust unit)]
 
 promtFindByCode = do
   putStrLn "Enter stock code"
@@ -184,6 +183,7 @@ promtFindByCode = do
   stock <- findByCode code
   let stockFound = fromJust stock
   printStock $ return [stockFound]
+  return stockFound
 
 promtFindBytDescription = do
   putStrLn "Enter description"
@@ -191,3 +191,4 @@ promtFindBytDescription = do
   stock <- findByDescription description
   let stockFound = fromJust stock
   printStock $ return [stockFound]
+  return stockFound

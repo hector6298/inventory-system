@@ -5,17 +5,8 @@ import Data.List
 import Numeric
 import Stock
 import Customer
-
--- Synonyms
-type QuantityOrdered = Int
-
-orders_db = "db/orders_db"
-
-data Order = Order { ordStockCode :: StockCode,
-                     customer :: CustomerId,
-                     qtyOrdered :: QuantityOrdered,
-                     number :: Int
-                   } deriving (Show, Read, Ord, Eq)
+import Utils
+import Types
 
 orderUnzip :: (Int, Order) -> Order
 orderUnzip tup = assignNumber (fst tup) (snd tup)
@@ -51,6 +42,36 @@ loadOrders path = do
   let list' = [a | a <- map read (lines file) :: [Order]]
       numberedList = zip [0..length list'] list'
   return (numberedList)
+
+-- NEW FUNCTIONALITY
+placeOrder :: IO ( Maybe Order)
+placeOrder = do
+  printAllStock
+  putStrLn "PLACE ORDER"
+  stockFound <- findUnitBy
+  order <- loadOrders orders_db
+  putStrLn "Insert client"
+  clientName <- getLine
+  customer <- findCustomerByName clientName
+  customer <- if isNothing customer
+                 then do 
+                  addCustomer 
+                  findCustomerByName clientName
+                 else
+                  findCustomerByName clientName
+  
+  let ordnum = (+1) $  fst $ last order
+  if isNothing stockFound
+    then return Nothing 
+    else do
+      quantity <- getLine
+      return $ Just Order{
+                        ordStockCode=stockCode (fromJust stockFound), 
+                        customer=customerId (fromJust customer), 
+                        qtyOrdered=read quantity::Int,
+                        number=ordnum
+                      }
+
 
 findOrder :: Int -> IO (Maybe Order)
 findOrder n = do
