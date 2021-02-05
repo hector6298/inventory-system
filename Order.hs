@@ -5,13 +5,11 @@ import Data.List
 import Numeric
 import Stock
 import Customer
-
+import Utils
 -- Synonyms
 type QuantityOrdered = Int
 
 orders_db = "db/orders_db"
-
-type UserName = String
 
 data Order = Order { ordStockCode :: StockCode,
                      customer :: CustomerId,
