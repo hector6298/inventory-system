@@ -11,7 +11,7 @@ type Description = String
 -- Account --
 type Password = String
 type UserName = String
--- wrkers --
+-- Worker --
 type WorkerId = Int
 type WorkerName = String
 
@@ -46,12 +46,11 @@ data Stock = Stock { stockCode :: StockCode,
 data Worker = Worker {
     workerID :: WorkerID
     workerName :: WorkerName,
-    assignedOrder :: Maybe Int,
-
-}
+    assignedOrder :: Maybe Int
+} deriving (Show, Read)
 
 db_path = "db/accounts_db"
 customers_db = "db/customers_db"
 orders_db = "db/orders_db"
 stock_db = "db/stock_db"
-db_path ="db/workers_db"
+workers_db ="db/workers_db"

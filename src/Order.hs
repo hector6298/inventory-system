@@ -7,6 +7,7 @@ import Stock
 import Customer
 import Utils
 import Types
+import Worker
 
 orderUnzip :: (Int, Order) -> Order
 orderUnzip tup = assignNumber (fst tup) (snd tup)
