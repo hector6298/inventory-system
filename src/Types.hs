@@ -44,7 +44,7 @@ data Stock = Stock { stockCode :: StockCode,
                    description :: Description } deriving (Show, Read, Ord, Eq)
 
 data Worker = Worker {
-    workerID :: WorkerID
+    workerId :: WorkerId,
     workerName :: WorkerName,
     assignedOrder :: Maybe Int
 } deriving (Show, Read)

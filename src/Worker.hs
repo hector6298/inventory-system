@@ -3,7 +3,8 @@ import System.IO
 import Control.Monad(liftM)
 import Data.Maybe
 import Types
-
+import Data.List
+import Utils (saveNew)
 
 loadWorkers :: FilePath -> IO [Worker]
 loadWorkers path = do
