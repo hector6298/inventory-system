@@ -66,6 +66,14 @@ addWorker = do
   let id = (+1) $ workerId $ last workers
   return Worker{workerId=id, workerName=name, availability=Available}
 
+printWorkers:: IO ([Stock]) -> IO ()
+printworker input = do
+  workerList <- input  
+  putStrLn "Worker Id |Worker Name | Availability"
+  putStrLn "_____________________________________________________"
+  prettyPrintedStock <- forM stockList (\unit -> do
+      return $ show (stockCode unit) ++ "\t    |$ " ++ show (unitPrice unit) ++ "\t|$ " ++ show (discountPrice unit) ++ "\t|" ++ show (description unit))
+  mapM_ putStrLn prettyPrintedStock
 
 addWorkerAndSave= do
   stock <- addWorker
@@ -73,4 +81,7 @@ addWorkerAndSave= do
   putStrLn $ show stock
 
 updateWorkerMain = do
-  
+  putStrLn "Insert worker name"
+  name <- getLine 
+  putStrLn "Is worker available?"
+
