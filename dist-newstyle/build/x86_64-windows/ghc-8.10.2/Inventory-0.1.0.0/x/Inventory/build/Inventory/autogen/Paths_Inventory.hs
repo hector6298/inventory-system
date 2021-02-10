@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "C:\\Users\\mejia\\AppData\\Roaming\\cabal\\bin"
-libdir     = "C:\\Users\\mejia\\AppData\\Roaming\\cabal\\x86_64-windows-ghc-8.10.2\\Inventory-0.1.0.0-inplace-Inventory"
-dynlibdir  = "C:\\Users\\mejia\\AppData\\Roaming\\cabal\\x86_64-windows-ghc-8.10.2"
-datadir    = "C:\\Users\\mejia\\AppData\\Roaming\\cabal\\x86_64-windows-ghc-8.10.2\\Inventory-0.1.0.0"
-libexecdir = "C:\\Users\\mejia\\AppData\\Roaming\\cabal\\Inventory-0.1.0.0-inplace-Inventory\\x86_64-windows-ghc-8.10.2\\Inventory-0.1.0.0"
-sysconfdir = "C:\\Users\\mejia\\AppData\\Roaming\\cabal\\etc"
+bindir     = "C:\\Users\\COMPUTADOR\\AppData\\Roaming\\cabal\\bin"
+libdir     = "C:\\Users\\COMPUTADOR\\AppData\\Roaming\\cabal\\x86_64-windows-ghc-8.10.2\\Inventory-0.1.0.0-inplace-Inventory"
+dynlibdir  = "C:\\Users\\COMPUTADOR\\AppData\\Roaming\\cabal\\x86_64-windows-ghc-8.10.2"
+datadir    = "C:\\Users\\COMPUTADOR\\AppData\\Roaming\\cabal\\x86_64-windows-ghc-8.10.2\\Inventory-0.1.0.0"
+libexecdir = "C:\\Users\\COMPUTADOR\\AppData\\Roaming\\cabal\\Inventory-0.1.0.0-inplace-Inventory\\x86_64-windows-ghc-8.10.2\\Inventory-0.1.0.0"
+sysconfdir = "C:\\Users\\COMPUTADOR\\AppData\\Roaming\\cabal\\etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "Inventory_bindir") (\_ -> return bindir)

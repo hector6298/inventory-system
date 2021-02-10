@@ -46,11 +46,27 @@ data Stock = Stock { stockCode :: StockCode,
 data Worker = Worker {
     workerId :: WorkerId,
     workerName :: WorkerName,
-    assignedOrder :: Maybe Int
+    availability :: Availability,
+
 } deriving (Show, Read)
+
+data Asset = Asset {
+    assetId :: Int,
+    description :: String,
+    status :: Condition
+} deriving (Show, Read)
+
+data Condition = Perfect | Maintenance | Damaged | Destroyed deriving (Show, Read, Enum, Ord)
+
+data Availability = Busy a | Available 
+ 
+instance Functor Availability where 
+    fmap f (Busy a) = Busy (f a)
+    fmap Available = Available
 
 db_path = "db/accounts_db"
 customers_db = "db/customers_db"
 orders_db = "db/orders_db"
 stock_db = "db/stock_db"
 workers_db ="db/workers_db"
+assets_db = "db/assets_db"
