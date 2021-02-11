@@ -10,6 +10,7 @@ import Control.Exception
 import Utils (saveNew)
 import Data.Functor
 import Types
+import Control.Applicative
 
 unitPriceSort :: Stock -> Stock -> Ordering
 unitPriceSort a b | unitPrice a >= unitPrice b = GT
@@ -163,7 +164,7 @@ findUnitBy = do
   putStrLn "   2. Description"
   choiseString <- getLine
   let choice = read choiseString
-  case choice of 1 -> fmap Just promtFindByCode
+  case choice of 1 -> liftA Just promtFindByCode
                  2 -> fmap Just promtFindBytDescription
                  _ -> return Nothing
 
