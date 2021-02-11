@@ -9,6 +9,7 @@ import Utils
 import Types
 import Worker
 
+
 orderUnzip :: (Int, Order) -> Order
 orderUnzip tup = assignNumber (fst tup) (snd tup)
 
@@ -42,7 +43,7 @@ loadOrders path = do
   file <- readFile path
   let list' = [a | a <- map read (lines file) :: [Order]]
       numberedList = zip [0..length list'] list'
-  return (numberedList)
+  return numberedList
 
 -- NEW FUNCTIONALITY
 placeOrder :: IO ( Maybe Order)
@@ -50,23 +51,26 @@ placeOrder = do
   printAllStock
   putStrLn "PLACE ORDER"
   stockFound <- findUnitBy
-  order <- loadOrders orders_db
+  order <-  loadOrders orders_db
   putStrLn "Insert client"
   clientName <- getLine
   customer <- findCustomerByName clientName
   customer <- if isNothing customer
                  then do 
-                  addCustomer 
+                  addCustomerAndSave 
                   findCustomerByName clientName
                  else
                   findCustomerByName clientName
   putStrLn "Assign a worker"
-  worker <- getLine
+  workerId <- getLine
   let ordnum = (+1) $  fst $ last order
   if isNothing stockFound
     then return Nothing 
     else do
-      maybeUpdateWorkerAndSave (read worker) ordnum workers_db
+      
+      workers <- loadWorkers workers_db
+      maybeUpdateWorkerAndSave workers (read workerId) ordnum workers_db
+      putStrLn "Insert quantity"
       quantity <- getLine
       return $ Just Order{
                         ordStockCode=stockCode (fromJust stockFound), 
@@ -81,7 +85,7 @@ findOrder n = do
   orders' <- loadOrders orders_db
   let orders = map orderUnzip orders'
   let order = find (\x -> number x == n) orders
-  return (order)
+  return order
 
 printReceipt = do
   putStrLn "Which order to print? Select number"

@@ -3,6 +3,15 @@ import System.IO
 import System.Directory
 import Data.Maybe
 import Types
+import Control.Concurrent
+import System.IO
+import System.Process
+import Control.Exception.Safe
+
+retryIO :: IO a -> IO a
+retryIO act = catchIO act $ \x -> do
+    threadDelay $ 1 * 1000000 -- 1 second
+    act
 
 saveNew :: Show a => a -> FilePath  -> IO ()
 saveNew newItem filename= do
@@ -27,5 +36,5 @@ maybeAddAndSave f path = do
     if isNothing item
       then putStrLn "Cannot Save, as no value is present"
       else do 
-          saveNew item path
-          putStrLn $ show item
+          saveNew  (fromJust item) path
+          putStrLn $ show (fromJust item)

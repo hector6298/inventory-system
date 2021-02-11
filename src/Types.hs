@@ -61,7 +61,7 @@ data Condition = Perfect | Maintenance | Damaged | Destroyed deriving (Show, Rea
 data Availability a = Busy a | Available deriving (Read)
 
 instance Show a => Show (Availability a) where
-    show (Busy a) = show "Busy" ++ show a
+    show (Busy a) =  "Busy " ++ show a
     show Available = "Available"
 
 

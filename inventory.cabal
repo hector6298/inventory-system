@@ -23,7 +23,7 @@ executable Inventory
                   Utils
                   Worker 
                   Order    
-  build-depends:       base, directory
+  build-depends:       base, directory, process, safe-exceptions, bytestring, deepseq
   Main-Is:             Main.hs
   Hs-Source-Dirs:      src
 

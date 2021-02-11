@@ -22,6 +22,28 @@
   (major1) == 4 && (major2) == 14 && (minor) <= 1)
 #endif /* MIN_VERSION_base */
 
+/* package bytestring-0.10.10.0 */
+#ifndef VERSION_bytestring
+#define VERSION_bytestring "0.10.10.0"
+#endif /* VERSION_bytestring */
+#ifndef MIN_VERSION_bytestring
+#define MIN_VERSION_bytestring(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  10 || \
+  (major1) == 0 && (major2) == 10 && (minor) <= 10)
+#endif /* MIN_VERSION_bytestring */
+
+/* package deepseq-1.4.4.0 */
+#ifndef VERSION_deepseq
+#define VERSION_deepseq "1.4.4.0"
+#endif /* VERSION_deepseq */
+#ifndef MIN_VERSION_deepseq
+#define MIN_VERSION_deepseq(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  4 || \
+  (major1) == 1 && (major2) == 4 && (minor) <= 4)
+#endif /* MIN_VERSION_deepseq */
+
 /* package directory-1.3.6.0 */
 #ifndef VERSION_directory
 #define VERSION_directory "1.3.6.0"
@@ -32,6 +54,28 @@
   (major1) == 1 && (major2) <  3 || \
   (major1) == 1 && (major2) == 3 && (minor) <= 6)
 #endif /* MIN_VERSION_directory */
+
+/* package process-1.6.9.0 */
+#ifndef VERSION_process
+#define VERSION_process "1.6.9.0"
+#endif /* VERSION_process */
+#ifndef MIN_VERSION_process
+#define MIN_VERSION_process(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  6 || \
+  (major1) == 1 && (major2) == 6 && (minor) <= 9)
+#endif /* MIN_VERSION_process */
+
+/* package safe-exceptions-0.1.7.1 */
+#ifndef VERSION_safe_exceptions
+#define VERSION_safe_exceptions "0.1.7.1"
+#endif /* VERSION_safe_exceptions */
+#ifndef MIN_VERSION_safe_exceptions
+#define MIN_VERSION_safe_exceptions(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  1 || \
+  (major1) == 0 && (major2) == 1 && (minor) <= 7)
+#endif /* MIN_VERSION_safe_exceptions */
 
 /* tool gcc-9.2.0 */
 #ifndef TOOL_VERSION_gcc

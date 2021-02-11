@@ -7,6 +7,7 @@ import Stock
 import Order
 import Types
 import Worker
+import Utils
 
 main :: IO ()
 main = do
@@ -42,6 +43,7 @@ menu = do
   putStrLn "11. Read worker file"
   putStrLn "12. Update worker"
   putStrLn "13. Remove worker"
+  putStrLn "14. Place order"
   putStrLn "0. Exit"
 
 processMenu = do
@@ -58,9 +60,12 @@ processMenu = do
                  8 -> printOrdersHelper
                  9 -> printReceipt
                  10 -> addWorkerAndSave
-                 11 -> printWorkers $ loadWorkers workers_db
+                 11 -> do
+                    workers <-loadWorkers workers_db
+                    printWorkers workers
                  12 -> updateWorkerMain 
                  13 -> removeWorkerMain
+                 14 -> maybeAddAndSave placeOrder  orders_db 
                  0 -> exitSuccess
                  otherwise -> putStrLn "not exists"
   processMenu

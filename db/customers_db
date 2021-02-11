@@ -1,2 +1,4 @@
 Customer {customerId=1, customerName="Shukhrat Mukimov", customerAddress="A-16-08 Endah Puri Condo\n 57000 Kuala Lumpur"}
 Customer {customerId=2, customerName="Bakhtiyar Toleu", customerAddress="A-11-28 Savanna Condo\n 57000 Kuala Lumpur"}
+Customer {customerId=3, customerName="Pedro Picapiedra", customerAddress="Samanes"}
+Customer {customerId = 4, customerName = "francisco", customerAddress = "samanes"}

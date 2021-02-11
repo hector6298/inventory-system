@@ -9,19 +9,19 @@ loadCustomers :: FilePath -> IO [Customer]
 loadCustomers path = do
   file <- readFile path
   let list' = [a | a <- map read (lines file) :: [Customer]]
-  return (list')
+  return list'
 
 findCustomer :: Int -> IO (Maybe Customer)
 findCustomer n = do
   customers <- loadCustomers customers_db
   let customer = find (\x -> customerId x == n) customers
-  return (customer)
+  return customer
 
 findCustomerByName :: String -> IO (Maybe Customer)
 findCustomerByName name = do
   customers <- loadCustomers customers_db
   let customer = find (\x -> customerName x == name) customers
-  return (customer)
+  return customer
 
 addCustomer :: IO Customer
 addCustomer = do

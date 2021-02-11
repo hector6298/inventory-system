@@ -1,2 +1,3 @@
-Worker {workerId = 1, workerName = "Juan Pedro", availability = Available}
-Worker {workerId = 2, workerName = "Mary Jane", availability = Available}
+Worker {workerId = 1, workerName = "Juan Alves", availability = Available}
+Worker {workerId = 2, workerName = "Juan Alves", availability = Available}
+Worker {workerId = 3, workerName = "Juan Alves", availability = Available}

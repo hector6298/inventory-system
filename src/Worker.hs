@@ -7,24 +7,29 @@ import Types
 import Data.List
 import Control.Exception
 import Utils (saveNew)
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Char8 as C
+import Control.DeepSeq
+import Control.Exception
+
 {-# LANGUAGE FlexibleContexts #-}
 loadWorkers :: FilePath -> IO [Worker]
 loadWorkers path = do
   file <- readFile path
+  evaluate (force file)
   let list' = [a | a <- map read (lines file) :: [Worker]]
-  return (list')
+  return list'
 
-findWorker :: Int -> IO (Maybe Worker)
-findWorker n = do
-  workers <- loadWorkers workers_db
+findWorker :: [Worker] -> Int -> IO (Maybe Worker)
+findWorker workers n = do
   let worker = find (\x -> workerId x == n) workers
-  return (worker)
+  return worker
 
 findWorkerByName :: String -> IO (Maybe Worker)
 findWorkerByName name = do
   workers <- loadWorkers workers_db
   let worker = find (\x -> workerName x == name) workers
-  return (worker)
+  return worker
 
 removeWorker :: Int -> IO ()
 removeWorker number = do 
@@ -40,28 +45,25 @@ removeWorker number = do
     (\(tempName, tempHandle) -> do
       hPutStr tempHandle newWorkerList
       hClose tempHandle
-      putStrLn "dummy"
       removeFile "db/workers_db"
-      putStrLn "dummy"
       renameFile tempName "db/workers_db")
 
-updateWorker :: Int -> Int -> IO (Maybe Worker)
-updateWorker workerId orderId = do
-  worker <- findWorker workerId
+updateWorker :: [Worker] -> Int -> Int -> IO (Maybe Worker)
+updateWorker workers workerId orderId = do
+  worker <- findWorker workers workerId
   removeWorker (workerId-1 )
-  putStrLn "dummy"
   if isNothing worker 
     then return Nothing
     else return (Just Worker{workerId= workerId, workerName= workerName (fromJust worker), availability=Busy orderId})
 -- Chequear 
 
-maybeUpdateWorkerAndSave :: Int -> Int -> FilePath -> IO ()
-maybeUpdateWorkerAndSave workerId orderId path = do
-    worker <- updateWorker workerId orderId
+maybeUpdateWorkerAndSave :: [Worker] -> Int -> Int -> FilePath -> IO ()
+maybeUpdateWorkerAndSave workers workerId orderId path = do
+    worker <- updateWorker workers workerId orderId
     if isNothing worker
       then putStrLn "Cannot Save, as no value is present"
       else do 
-          saveNew worker path
+          saveNew (fromJust worker) path
           putStrLn $ show worker
 
 addWorker :: IO Worker
@@ -72,13 +74,12 @@ addWorker = do
   let id = (+1) $ workerId $ last workers
   return Worker{workerId=id, workerName=name, availability=Available}
 
-printWorkers:: IO ([Worker]) -> IO ()
-printWorkers input = do
-  workerList <- input  
+printWorkers:: [Worker] -> IO ()
+printWorkers workerList = do 
   putStrLn "Worker Id | Worker Name | Availability"
   putStrLn "_____________________________________________________"
   prettyPrintedStock <- forM workerList (\worker -> do
-      return $ show (workerId worker) ++ "\t    |$ " ++ show (workerName worker) ++ "|$ " ++ show (availability worker))
+      return $ show (workerId worker) ++ "\t    |  " ++ show (workerName worker) ++ "| " ++ show (availability worker))
   mapM_ putStrLn prettyPrintedStock
 
 addWorkerAndSave= do
@@ -87,15 +88,17 @@ addWorkerAndSave= do
   putStrLn $ show stock
 
 updateWorkerMain = do
-  printWorkers $ loadWorkers workers_db
+  workers <- loadWorkers workers_db 
+  printWorkers workers
   putStrLn "Insert the worker id of the worker you want to update"
   workerId <- getLine 
   putStrLn "Insert order id"
   orderId <- getLine
-  maybeUpdateWorkerAndSave (read workerId) (read orderId) workers_db
+  maybeUpdateWorkerAndSave workers (read workerId) (read orderId) workers_db
 
 removeWorkerMain = do
-  printWorkers $ loadWorkers workers_db
+  workers <- loadWorkers workers_db 
+  printWorkers workers
   putStrLn "Insert the worker id of the worker you want to remove"
   workerId <- getLine 
   removeWorker ((read workerId) - 1)
