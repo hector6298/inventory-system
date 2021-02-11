@@ -46,7 +46,7 @@ data Stock = Stock { stockCode :: StockCode,
 data Worker = Worker {
     workerId :: WorkerId,
     workerName :: WorkerName,
-    availability :: Availability
+    availability :: Availability Int
 
 } deriving (Show, Read)
 
@@ -56,16 +56,19 @@ data Asset = Asset {
     status :: Condition
 } deriving (Show, Read)
 
-data Condition = Perfect | Maintenance | Damaged | Destroyed deriving (Show, Read, Enum, Ord)
+data Condition = Perfect | Maintenance | Damaged | Destroyed deriving (Show, Read, Enum, Eq, Ord)
+   
+data Availability a = Busy a | Available deriving (Read)
 
-data Polynomial a = Polynomial xs
-    deriving (Show, Read, Enum, Ord) 
-    
-data Availability = Busy a | Available 
+instance Show a => Show (Availability a) where
+    show (Busy a) = show "Busy" ++ show a
+    show Available = "Available"
+
+
 
 instance Functor Availability where 
     fmap f (Busy a) = Busy (f a)
-    fmap Available = Available
+    fmap f Available = Available
 
 
 db_path = "db/accounts_db"

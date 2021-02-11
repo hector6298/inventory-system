@@ -21,7 +21,8 @@ executable Inventory
                   Stock
                   Types
                   Utils
-                  Worker     
+                  Worker 
+                  Order    
   build-depends:       base, directory
   Main-Is:             Main.hs
   Hs-Source-Dirs:      src

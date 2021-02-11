@@ -60,12 +60,13 @@ placeOrder = do
                   findCustomerByName clientName
                  else
                   findCustomerByName clientName
-  
+  putStrLn "Assign a worker"
+  worker <- getLine
   let ordnum = (+1) $  fst $ last order
   if isNothing stockFound
     then return Nothing 
     else do
-      maybeUpdateWorkerAndSave workerId orderId workers_db
+      maybeUpdateWorkerAndSave (read worker) ordnum workers_db
       quantity <- getLine
       return $ Just Order{
                         ordStockCode=stockCode (fromJust stockFound), 
