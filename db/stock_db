@@ -8,3 +8,4 @@ Stock {stockCode = 7, unitPrice = 42.2, discountPrice = 40.32, description = "C+
 Stock {stockCode = 8, unitPrice = 83.99, discountPrice = 60.21, description = "Java Beginners"}
 Stock {stockCode = 9, unitPrice = 104.99, discountPrice = 99.99, description = "Essential math"}
 Stock {stockCode = 10, unitPrice = 43.0, discountPrice = 42.32, description = "Word"}
+Stock {stockCode = 11, unitPrice = 100.0, discountPrice = 80.0, description = "Haskell for Dummies"}
