@@ -58,8 +58,9 @@ processMenu = do
                  8 -> printOrdersHelper
                  9 -> printReceipt
                  10 -> addWorkerAndSave
-                 11 -> 
-                 12 -> 
+                 11 -> printWorkers $ loadWorkers workers_db
+                 12 -> updateWorkerMain 
+                 13 -> removeWorkerMain
                  0 -> exitSuccess
                  otherwise -> putStrLn "not exists"
   processMenu

@@ -49,6 +49,7 @@ updateWorker workerId orderId = do
     then return Nothing
     else return Worker{workerId= workerId, workerName= workerName, availability=Show Busy orderId}
 -- Chequear 
+
 maybeUpdateWorkerAndSave :: Show Worker => Int -> Int -> FilePath -> IO ()
 maybeUpdateWorkerAndSave workerId orderId path = do
     item <- updateWorker workerId orderId
@@ -58,7 +59,7 @@ maybeUpdateWorkerAndSave workerId orderId path = do
           saveNew item path
           putStrLn $ show item
 
-addWorker :: IO Customer
+addWorker :: IO Worker
 addWorker = do
   putStrLn "Insert worker name"
   name <- getLine 
@@ -69,10 +70,10 @@ addWorker = do
 printWorkers:: IO ([Stock]) -> IO ()
 printworker input = do
   workerList <- input  
-  putStrLn "Worker Id |Worker Name | Availability"
+  putStrLn "Worker Id | Worker Name | Availability"
   putStrLn "_____________________________________________________"
-  prettyPrintedStock <- forM stockList (\unit -> do
-      return $ show (stockCode unit) ++ "\t    |$ " ++ show (unitPrice unit) ++ "\t|$ " ++ show (discountPrice unit) ++ "\t|" ++ show (description unit))
+  prettyPrintedStock <- forM workerList (\worker -> do
+      return $ show (workerId worker) ++ "\t    |$ " ++ show (workerName worker) ++ "|$ " ++ show (availability worker)
   mapM_ putStrLn prettyPrintedStock
 
 addWorkerAndSave= do
@@ -81,7 +82,15 @@ addWorkerAndSave= do
   putStrLn $ show stock
 
 updateWorkerMain = do
-  putStrLn "Insert worker name"
-  name <- getLine 
-  putStrLn "Is worker available?"
+  printWorkers $ loadWorkers workers_db
+  putStrLn "Insert the worker id of the worker you want to update"
+  workerId <- getLine 
+  putStrLn "Insert order id"
+  orderId <- getLine
+  maybeUpdateWorkerAndSave workerId orderId workers_db
 
+removeWorkerMain = do
+  printWorkers $ loadWorkers workers_db
+  putStrLn "Insert the worker id of the worker you want to update"
+  workerId <- getLine 
+  removeWorker workerId

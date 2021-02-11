@@ -16,7 +16,13 @@ cabal-version:       >=1.8
 
 executable Inventory
   -- main-is:             
-  -- other-modules:       
+  other-modules:  Account
+                  Customer
+                  Stock
+                  Types
+                  Utils
+                  Worker     
   build-depends:       base, directory
   Main-Is:             Main.hs
   Hs-Source-Dirs:      src
+
