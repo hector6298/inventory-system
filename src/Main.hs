@@ -29,7 +29,7 @@ login = do
   return (username, password)
 
 menu = do
-  putStrLn "Make your choise: "
+  putStrLn "Make your choice: "
   putStrLn "1. Read stock file"
   putStrLn "2. Add unit to stock"
   putStrLn "3. Remove unit from stock"
@@ -49,8 +49,8 @@ menu = do
 processMenu = do
   menu
   line' <- getLine
-  let choise = read line' :: Int
-  case choise of 1 -> printStock $ loadStock stock_db 
+  let choice = read line' :: Int
+  case choice of 1 -> printStock $ loadStock stock_db 
                  2 -> addUnitAndSave
                  3 -> removeUnit
                  4 -> stockSorting

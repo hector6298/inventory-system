@@ -104,8 +104,8 @@ stockSorting = do
   putStrLn "  2. Discount price"
   putStrLn "  3. Description" 
   numberString <- getLine
-  let choise = read numberString
-  case choise of 1 -> printStock $ sortByUnitPrice $ loadStock stock_db
+  let choice = read numberString
+  case choice of 1 -> printStock $ sortByUnitPrice $ loadStock stock_db
                  2 -> printStock $ sortByDiscountPrice $ loadStock stock_db
                  3 -> printStock $ sortByDescription $ loadStock stock_db
                  _ -> putStrLn "not exists"
@@ -162,8 +162,8 @@ findUnitBy = do
   putStrLn "   1. Code"
   putStrLn "   2. Description"
   choiseString <- getLine
-  let choise = read choiseString
-  case choise of 1 -> fmap Just promtFindByCode
+  let choice = read choiseString
+  case choice of 1 -> fmap Just promtFindByCode
                  2 -> fmap Just promtFindBytDescription
                  _ -> return Nothing
 
