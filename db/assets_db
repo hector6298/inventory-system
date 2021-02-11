@@ -1,0 +1,4 @@
+Asset {assetId = 1, assetDescription = "Computer", status = Perfect}
+Asset {assetId = 2, assetDescription = "Chair", status = Damaged}
+Asset {assetId = 3, assetDescription = "Desktop", status = Perfect}
+Asset {assetId = 4, assetDescription = "Lamp", status = Maintenance}

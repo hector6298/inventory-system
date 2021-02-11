@@ -8,6 +8,7 @@ import Order
 import Types
 import Worker
 import Utils
+import Asset
 
 main :: IO ()
 main = do
@@ -44,6 +45,10 @@ menu = do
   putStrLn "12. Update worker"
   putStrLn "13. Remove worker"
   putStrLn "14. Place order"
+  putStrLn "15. Create asset"
+  putStrLn "16. Read asset file"
+  putStrLn "17. Update asset"
+  putStrLn "18. Remove asset"
   putStrLn "0. Exit"
 
 processMenu = do
@@ -66,6 +71,12 @@ processMenu = do
                  12 -> updateWorkerMain 
                  13 -> removeWorkerMain
                  14 -> maybeAddAndSave placeOrder  orders_db 
+                 15 -> addAssetAndSave
+                 16 -> do
+                    assets <-loadAssets assets_db
+                    printAssets assets
+                 17 -> updateAssetMain
+                 18 -> removeAssetMain
                  0 -> exitSuccess
                  otherwise -> putStrLn "not exists"
   processMenu
