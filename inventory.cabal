@@ -22,7 +22,8 @@ executable Inventory
                   Types
                   Utils
                   Worker 
-                  Order    
+                  Order
+                  Asset  
   build-depends:       base, directory, process, safe-exceptions, bytestring, deepseq
   Main-Is:             Main.hs
   Hs-Source-Dirs:      src

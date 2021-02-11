@@ -1,5 +1,4 @@
 module Utils where
-import System.IO
 import System.Directory
 import Data.Maybe
 import Types
