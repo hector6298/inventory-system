@@ -1,4 +1,5 @@
 inventory-system
 ================
 
-haskell assignment
+Functional Programming Haskell Project.
+Add types and functionality.
